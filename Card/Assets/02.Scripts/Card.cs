@@ -4,29 +4,39 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    private CardStack stack;
+    public You you;
+    private GameManager manager;
+    private CardManager cardManager;
 
     private string cardName;
     private char cardSuits;
     private int cardNumber;
 
+    private char cardColor;
+
     public string Name => cardName;
     public char Suit => cardSuits;
     public int Number => cardNumber;
+    public char Color => cardColor;
 
     private void Awake()
     {
-        stack = GameObject.Find("CardManager").GetComponent<CardStack>();
+        cardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         cardName = name;
         cardSuits = cardName[0];
         cardNumber = int.Parse(cardName[1..]);
+
+        cardColor = cardSuits == 'S' || cardSuits == 'C' ? 'b' : 'r';
         //print($"{Name} {Suit} {Number}");
     }
 
     private void OnMouseDown()
     {
-        stack.Place(gameObject);
-        Destroy(gameObject);
+        if (manager.PlayerTurn)
+        {
+            cardManager.Place(gameObject, this, true, you.Consecutive);
+        }
     }
 }
