@@ -19,7 +19,7 @@ public class Card : MonoBehaviour
     public int Number => cardNumber;
     public char Color => cardColor;
 
-    private void Awake()
+    void Awake()
     {
         cardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -32,7 +32,7 @@ public class Card : MonoBehaviour
         //print($"{Name} {Suit} {Number}");
     }
 
-    private void OnMouseDown()
+    void OnMouseDown()
     {
         if (manager.PlayerTurn)
         {

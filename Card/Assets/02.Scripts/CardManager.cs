@@ -26,14 +26,14 @@ public class CardManager : MonoBehaviour
 
     public void Place(GameObject @object, Card card, bool turn, bool consecutive)
     {
-        int p_number = card.Number;
-        char p_suit = card.Suit;
-        char p_color = card.Color;
-
         Card stacked = stack.Peek();
         int s_number = stacked.Number;
         char s_suit = stacked.Suit;
         char s_color = stacked.Color;
+
+        int p_number = card.Number;
+        char p_suit = card.Suit;
+        char p_color = card.Color;
 
         if (mustGetCard)
         {
@@ -41,17 +41,17 @@ public class CardManager : MonoBehaviour
             {
                 if (p_color == s_color && consecutive)
                 {
-                    ThrowACard(p_color, 14);
+                    ThrowCard(p_color, 14);
                 }
                 else if (s_suit == 'J' && s_color == 'b')
                 {
-                    if (s_color == 'r')
+                    if (p_color == 'r')
                     {
-                        ThrowACard('r', 14);
+                        ThrowCard('r', 14);
                     }
                     else if (p_suit == 'S' && p_number == 4)
                     {
-                        ThrowACard('r', 4);
+                        ThrowCard('r', 4);
                     }
                 }
             }
@@ -59,48 +59,61 @@ public class CardManager : MonoBehaviour
             {
                 if (p_number == 1 && s_number == 2)
                 {
-                    ThrowACard(p_suit, p_number);
+                    ThrowCard(p_suit, p_number);
                 }
 
             }
             else if (p_number == s_number)
             {
-                ThrowACard(p_suit, p_number);
+                ThrowCard(p_suit, p_number);
             }
         }
         else
         {
             if (p_suit == s_suit && consecutive)
             {
-                ThrowACard(p_suit, p_number);
+                ThrowCard(p_suit, p_number);
             }
             else if (p_suit == 'J')
             {
                 if (p_color == s_color && consecutive)
                 {
-                    ThrowACard(p_color, 14);
+                    ThrowCard(p_color, 14);
                 }
                 else if (s_suit == 'J' && s_color == 'b' && p_color == 'r')
                 {
-                    ThrowACard('r', 14);
+                    ThrowCard('r', 14);
                 }
             }
             else if (s_suit == 'J')
             {
                 if (p_color == s_color && consecutive)
                 {
-                    ThrowACard(p_suit, p_number);
+                    ThrowCard(p_suit, p_number);
                 }
             }
             else if (p_number == s_number)
             {
-                ThrowACard(p_suit, p_number);
+                ThrowCard(p_suit, p_number);
             }
         }
     }
 
-    private void ThrowACard(char suit, int number)
+    private void ThrowCard(char suit, int number)
     {
+        if (number == 1)
+        {
+            manager.CardsStack += suit.Equals('S') ? 5 : 3;
+        }
+        else if (number == 2)
+        {
+            manager.CardsStack += 2;
+        }
+        else if (number == 14)
+        {
+            manager.CardsStack += suit.Equals('r') ? 7 : 10;
+        }
+
 
     }
 }
